@@ -20,6 +20,12 @@ parser.add_option('--sample', metavar='F', type='string', action='store',
                   dest='sample',
                   help='Sample, only used for output root file name')
 
+parser.add_option('--dynamic', '--db',
+                  action='store_true',
+                  default=False,
+                  dest='dynamicBin',
+                  help='Dynamic binning based on events per bin')
+
 (options, args) = parser.parse_args()
 argv = []
 
@@ -90,10 +96,10 @@ h_pt_etaresponse_pt30_100    = ROOT.TH2F('h_pt_etaresponse_pt30_100',   'p_{T}^{
 h_pt_etaresponse_pt100_400   = ROOT.TH2F('h_pt_etaresponse_pt100_400',  'p_{T}^{RECO} / p_{T}^{GEN};|#eta^{GEN}|', 50, 0.0, 5.0, 25, 0, 2.5 )
 h_pt_etaresponse_pt400_2000  = ROOT.TH2F('h_pt_etaresponse_pt400_2000', 'p_{T}^{RECO} / p_{T}^{GEN};|#eta^{GEN}|', 50, 0.0, 5.0, 25, 0, 2.5 )
 h_pt_etaresponse_pt2000_inf  = ROOT.TH2F('h_pt_etaresponse_pt2000_inf', 'p_{T}^{RECO} / p_{T}^{GEN};|#eta^{GEN}|', 50, 0.0, 5.0, 25, 0, 2.5 )
-h_pt_etaresponse_npv10_20    = ROOT.TH2F('h_pt_etaresponse_npv10_20',   ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 50, 0.0, 5.0, 25, 0, 2.5 )
-h_pt_etaresponse_npv20_30   = ROOT.TH2F('h_pt_etaresponse_npv20_30',  ';;|#eta^{GEN}|m^{RECO} / m^{GEN}', 50, 0.0, 5.0, 25, 0, 2.5 )
-h_pt_etaresponse_npv30_40  = ROOT.TH2F('h_pt_etaresponse_npv30_40', ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 50, 0.0, 5.0, 25, 0, 2.5 )
-h_pt_etaresponse_npv40_50  = ROOT.TH2F('h_pt_etaresponse_npv40_50', ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 50, 0.0, 5.0, 25, 0, 2.5 )
+h_pt_etaresponse_npv10_20    = ROOT.TH2F('h_pt_etaresponse_npv10_20',   ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 25, 0.0, 5.0, 25, 0, 2.5 )
+h_pt_etaresponse_npv20_30   = ROOT.TH2F('h_pt_etaresponse_npv20_30',  ';;|#eta^{GEN}|m^{RECO} / m^{GEN}', 25, 0.0, 5.0, 25, 0, 2.5 )
+h_pt_etaresponse_npv30_40  = ROOT.TH2F('h_pt_etaresponse_npv30_40', ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 25, 0.0, 5.0, 25, 0, 2.5 )
+h_pt_etaresponse_npv40_50  = ROOT.TH2F('h_pt_etaresponse_npv40_50', ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 25, 0.0, 5.0, 25, 0, 2.5 )
 
 h_pt_etaresponses = [
     h_pt_etaresponse_pt10_30,
@@ -112,10 +118,10 @@ h_m_etaresponse_pt30_100    = ROOT.TH2F('h_m_etaresponse_pt30_100',   ';|#eta^{G
 h_m_etaresponse_pt100_400   = ROOT.TH2F('h_m_etaresponse_pt100_400',  ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 50, 0.0, 5.0, 25, 0, 2.5 )
 h_m_etaresponse_pt400_2000  = ROOT.TH2F('h_m_etaresponse_pt400_2000', ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 50, 0.0, 5.0, 25, 0, 2.5 )
 h_m_etaresponse_pt2000_inf  = ROOT.TH2F('h_m_etaresponse_pt2000_inf', ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 50, 0.0, 5.0, 25, 0, 2.5 )
-h_m_etaresponse_npv10_20    = ROOT.TH2F('h_m_etaresponse_npv10_20',   ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 50, 0.0, 5.0, 25, 0, 2.5 )
-h_m_etaresponse_npv20_30   = ROOT.TH2F('h_m_etaresponse_npv20_30',  ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 50, 0.0, 5.0, 25, 0, 2.5 )
-h_m_etaresponse_npv30_40  = ROOT.TH2F('h_m_etaresponse_npv30_40', ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 50, 0.0, 5.0, 25, 0, 2.5 )
-h_m_etaresponse_npv40_50  = ROOT.TH2F('h_m_etaresponse_npv40_50', ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 50, 0.0, 5.0, 25, 0, 2.5 )
+h_m_etaresponse_npv10_20    = ROOT.TH2F('h_m_etaresponse_npv10_20',   ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 25, 0.0, 5.0, 25, 0, 2.5 )
+h_m_etaresponse_npv20_30   = ROOT.TH2F('h_m_etaresponse_npv20_30',  ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 25, 0.0, 5.0, 25, 0, 2.5 )
+h_m_etaresponse_npv30_40  = ROOT.TH2F('h_m_etaresponse_npv30_40', ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 25, 0.0, 5.0, 25, 0, 2.5 )
+h_m_etaresponse_npv40_50  = ROOT.TH2F('h_m_etaresponse_npv40_50', ';|#eta^{GEN}|;m^{RECO} / m^{GEN}', 25, 0.0, 5.0, 25, 0, 2.5 )
 
 h_m_etaresponses = [
     h_m_etaresponse_pt10_30,
@@ -129,25 +135,25 @@ h_m_etaresponses = [
     h_m_etaresponse_npv40_50
         ]
     #was 0 to 1500 and 0 to 100
-h_pt_ptresponse_npv10_20 = ROOT.TH2F('h_pt_ptresponse_npv10_20', ';p_{T}^{GEN};p_{T}^{RECO} / p_{T}^{GEN}', 50, 0, 500, 25, 0, 2.5 )
+h_pt_ptresponse_npv10_20 = ROOT.TH2F('h_pt_ptresponse_npv10_20', ';p_{T}^{GEN};p_{T}^{RECO} / p_{T}^{GEN}', 25, 0, 500, 25, 0, 2.5 )
 h_m_ptresponse_npv10_20 = ROOT.TH2F('h_m_ptresponse_npv10_20', ';m_{T}^{GEN};p_{T}^{RECO} / p_{T}^{GEN}', 25, 0, 100, 25, 0, 2.5 )
 h_m_mresponse_npv10_20 = ROOT.TH2F('h_m_mresponse_npv10_20', ';m^{GEN};m^{RECO} / m^{GEN}', 25, 0, 100, 25, 0, 2.5 )
-h_pt_mresponse_npv10_20 = ROOT.TH2F('h_pt_mresponse_npv10_20', ';p_{T}^{GEN};m^{RECO} / m^{GEN}', 50, 0, 500, 25, 0, 2.5 )
+h_pt_mresponse_npv10_20 = ROOT.TH2F('h_pt_mresponse_npv10_20', ';p_{T}^{GEN};m^{RECO} / m^{GEN}', 25, 0, 500, 25, 0, 2.5 )
 
-h_pt_ptresponse_npv20_30 = ROOT.TH2F('h_pt_ptresponse_npv20_30', ';p_{T}^{GEN};p_{T}^{RECO} / p_{T}^{GEN}', 50, 0, 500, 25, 0, 2.5 )
+h_pt_ptresponse_npv20_30 = ROOT.TH2F('h_pt_ptresponse_npv20_30', ';p_{T}^{GEN};p_{T}^{RECO} / p_{T}^{GEN}', 25, 0, 500, 25, 0, 2.5 )
 h_m_ptresponse_npv20_30 = ROOT.TH2F('h_m_ptresponse_npv20_30', ';m_{T}^{GEN};p_{T}^{RECO} / p_{T}^{GEN}', 25, 0, 100, 25, 0, 2.5 )
 h_m_mresponse_npv20_30 = ROOT.TH2F('h_m_mresponse_npv20_30', ';m^{GEN};m^{RECO} / m^{GEN}', 25, 0, 100, 25, 0, 2.5 )
-h_pt_mresponse_npv20_30 = ROOT.TH2F('h_pt_mresponse_npv20_30', ';p_{T}^{GEN};m^{RECO} / m^{GEN}', 50, 0, 500, 25, 0, 2.5 )
+h_pt_mresponse_npv20_30 = ROOT.TH2F('h_pt_mresponse_npv20_30', ';p_{T}^{GEN};m^{RECO} / m^{GEN}', 25, 0, 500, 25, 0, 2.5 )
 
-h_pt_ptresponse_npv30_40 = ROOT.TH2F('h_pt_ptresponse_npv30_40', ';p_{T}^{GEN};p_{T}^{RECO} / p_{T}^{GEN}', 50, 0, 500, 25, 0, 2.5 )
+h_pt_ptresponse_npv30_40 = ROOT.TH2F('h_pt_ptresponse_npv30_40', ';p_{T}^{GEN};p_{T}^{RECO} / p_{T}^{GEN}', 25, 0, 500, 25, 0, 2.5 )
 h_m_ptresponse_npv30_40 = ROOT.TH2F('h_m_ptresponse_npv30_40', ';m_{T}^{GEN};p_{T}^{RECO} / p_{T}^{GEN}', 25, 0, 100, 25, 0, 2.5 )
 h_m_mresponse_npv30_40 = ROOT.TH2F('h_m_mresponse_npv30_40', ';m^{GEN};m^{RECO} / m^{GEN}', 25, 0, 100, 25, 0, 2.5 )
-h_pt_mresponse_npv30_40 = ROOT.TH2F('h_pt_mresponse_npv30_40', ';p_{T}^{GEN};m^{RECO} / m^{GEN}', 50, 0, 500, 25, 0, 2.5 )
+h_pt_mresponse_npv30_40 = ROOT.TH2F('h_pt_mresponse_npv30_40', ';p_{T}^{GEN};m^{RECO} / m^{GEN}', 25, 0, 500, 25, 0, 2.5 )
 
-h_pt_ptresponse_npv40_50 = ROOT.TH2F('h_pt_ptresponse_npv40_50', ';p_{T}^{GEN};p_{T}^{RECO} / p_{T}^{GEN}', 50, 0, 500, 25, 0, 2.5 )
+h_pt_ptresponse_npv40_50 = ROOT.TH2F('h_pt_ptresponse_npv40_50', ';p_{T}^{GEN};p_{T}^{RECO} / p_{T}^{GEN}', 25, 0, 500, 25, 0, 2.5 )
 h_m_ptresponse_npv40_50 = ROOT.TH2F('h_m_ptresponse_npv40_50', ';m_{T}^{GEN};p_{T}^{RECO} / p_{T}^{GEN}', 25, 0, 100, 25, 0, 2.5 )
 h_m_mresponse_npv40_50 = ROOT.TH2F('h_m_mresponse_npv40_50', ';m^{GEN};m^{RECO} / m^{GEN}', 25, 0, 100, 25, 0, 2.5 )
-h_pt_mresponse_npv40_50 = ROOT.TH2F('h_pt_mresponse_npv40_50', ';p_{T}^{GEN};m^{RECO} / m^{GEN}', 50, 0, 500, 25, 0, 2.5 )
+h_pt_mresponse_npv40_50 = ROOT.TH2F('h_pt_mresponse_npv40_50', ';p_{T}^{GEN};m^{RECO} / m^{GEN}', 25, 0, 500, 25, 0, 2.5 )
 
 h_pt_ptresponses = [
 h_pt_ptresponse_npv10_20,
@@ -186,7 +192,7 @@ def getptbin(x) :
     if x < 10. :
         return None
     for i in xrange( len(ptbins) - 1 ) :
-        if x > ptbins[i] and x < ptbins[i+1] :
+        if x >= ptbins[i] and x < ptbins[i+1] :
             return i
     return len(ptbins) - 2
 
@@ -197,9 +203,46 @@ def getNPVbin(x) :
     if x < 10 :
         return None
     for i in xrange( len(NPVbins) - 1 ) :
-        if x > NPVbins[i] and x < NPVbins[i+1] :
+        if x >= NPVbins[i] and x < NPVbins[i+1] :
             return i
     return len(NPVbins) - 2
+
+NPVs = []
+PTs = []
+nparts = 4
+if options.dynamicBin :
+    for jentry in xrange ( entries ) :
+        nc = tree.GetEntry( jentry )
+        if nc <= 0 :
+            continue
+        NPVs.append(npv[0])
+        for i in xrange( jets_pt.size() ) :
+            PTs.append(genjets_pt[i])
+    NPVs.sort()
+    PTs.sort()
+
+    NPVSize = len(NPVs)
+    PTSize = len(PTs)
+
+
+    def dynamicBinsNPV(x) :
+        dNPVbins = [ NPVs[(NPVSize/nparts)-1], NPVs[2*(NPVSize/nparts)-1], NPVs[3*(NPVSize/nparts)-1], NPVs[4*(NPVSize/nparts)-1] ]
+        if x < NPVs[(NPVSize/nparts)-1]:
+            return 0        
+        for i in xrange( len(dNPVbins) - 1 ) :
+            if x >= dNPVbins[i] and x < dNPVbins[i+1] :
+                return (i+1)
+        return len(dNPVbins) - 1
+
+    def dynamicBinsPT(x) :
+        dptbins = [ PTs[(PTSize/nparts)-1], PTs[2*(PTSize/nparts)-1], PTs[3*(PTSize/nparts)-1], PTs[4*(PTSize/nparts)-1] ]
+        if x < PTs[(PTSize/nparts)-1]:
+            return 0        
+        for i in xrange( len(dptbins) - 1 ) :
+            if x >= dptbins[i] and x < dptbins[i+1] :
+                return (i+1)
+        return len(dptbins) - 1
+
 
 
 # Loop over events
@@ -221,7 +264,14 @@ for jentry in xrange( entries ):
     genJets = []
         
     PVs = npv[0]
-    jbin = getNPVbin(PVs)
+    
+    
+    
+    if options.dynamicBin :
+        jbin = dynamicBinsNPV(PVs)
+    else :
+        jbin = getNPVbin(PVs)
+
     #print ' jbin ' + str(jbin) + ' npv ' + str(PVs)
     for i in xrange( jets_pt.size() ) :
         #print '%6.2f %6.2f' % ( jets_pt[i], genjets_pt[i])
@@ -232,6 +282,7 @@ for jentry in xrange( entries ):
         g = ROOT.TLorentzVector( )
         g.SetPtEtaPhiE( genjets_pt[i], genjets_eta[i], genjets_phi[i], genjets_e[i] )
         genJets.append(g)
+        
     
     if len(goodJets) > 0 and genJets[0].Perp() > 0.0 :
         pt = goodJets[0].Perp()
@@ -245,7 +296,10 @@ for jentry in xrange( entries ):
         rho = (m / (pt*R)) * (m / (pt*R))
         genrho = (genm / (genpt*R)) * (genm / (genpt*R))
 
-        ibin = getptbin( pt)
+        if options.dynamicBin :
+            ibin = dynamicBinsPT(pt)
+        else :
+            ibin = getptbin(pt)
         if ibin != None :
             #print 'pt = ' + str(pt) + ', ijbin = ' + str(ibin)
             h_pt_etaresponses[ibin].Fill( abs(geny), pt/genpt )
@@ -279,6 +333,18 @@ for jentry in xrange( entries ):
             h_rho_rhoresponse0.Fill(genrho, rho/genrho)
             
 print "EXITING"
+
+#if options.dynamicBin :
+    #print "NPV Bin 0: " + NPVs[0] + " - " + NPVs[(NPVSize/nparts)-1]
+    #print "NPV Bin 1: " + NPVs[(NPVSize/nparts)-1] + " - " + NPVs[2*(NPVSize/nparts)-1]
+    #print "NPV Bin 2: " + NPVs[2*(NPVSize/nparts)-1] + " - " + NPVs[3*(NPVSize/nparts)-1]
+    #print "NPV Bin 3: " + NPVs[3*(NPVSize/nparts)-1] + " - " + NPVs[4*(NPVSize/nparts)-1]
+    
+    #print "pt Bin 0: " + PTs[0] + " - " + PTs[(PTSize/nparts)-1]
+    #print "pt Bin 1: " + PTs[(PTSize/nparts)-1] + " - " + PTs[2*(PTSize/nparts)-1] 
+    #print "pt Bin 2: " + PTs[2*(PTSize/nparts)-1] + " - " + PTs[3*(PTSize/nparts)-1]
+    #print "pt Bin 3: " + PTs[3*(PTSize/nparts)-1] + " - " + PTs[4*(PTSize/nparts)-1]
+    
 
 f.cd()
 f.Write()
