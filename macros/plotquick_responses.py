@@ -254,14 +254,15 @@ else :
 for iinfile,infile in enumerate(infiles) :
     print '   processing infile = ' + infile.GetName()
     for ihist,shist in enumerate( inhists2 ) :
-        print 'processing shist = ' + shist
+        canvname = shist + '_PUBinned'
+        print 'processing shist = ' + canvname
         nh = ihist%4
         #print ' nh ' + str(nh)
         if nh == 0 :
-            canv = ROOT.TCanvas(shist,shist, 1600, 800)
+            canv = ROOT.TCanvas(canvname,canvname, 1600, 800)
             canv.Divide(2,1)
         
-            leg = ROOT.TLegend(0.6, 0.6, 0.85, 0.85)    
+            leg = ROOT.TLegend(0.8, 0.6, 1.05, 0.85)    
             leg.SetFillColor(0)
             leg.SetBorderSize(0)
         
@@ -308,8 +309,8 @@ for iinfile,infile in enumerate(infiles) :
             legs2.append(leg)
             canv.Draw()
             canvs2.append(canv)
-            canv.Print('pngs/' + 'PUBinned_' + algos[iinfile] + '_' + canv.GetName() + '_' + options.JetType + '_' + options.BX + '.png' )
-            canv.Print('pdfs/' + 'PUBinned_' + algos[iinfile] + '_' + canv.GetName() + '_' + options.JetType + '_' + options.BX + '.pdf' )
+            canv.Print('pngs/' +  algos[iinfile] + '_' + canv.GetName() + '_' + options.JetType + '_' + options.BX + '.png' )
+            canv.Print('pdfs/' +  algos[iinfile] + '_' + canv.GetName() + '_' + options.JetType + '_' + options.BX + '.pdf' )
 
 for ihist,shist in enumerate( inhists2 ) :
     print 'processing shist = ' + shist
@@ -317,7 +318,7 @@ for ihist,shist in enumerate( inhists2 ) :
         canv = ROOT.TCanvas(shist,shist, 1600, 800)
         canv.Divide(2,4)
 
-    leg = ROOT.TLegend(0.6, 0.6, 0.85, 0.85)    
+    leg = ROOT.TLegend(0.9, 0.5, 1.05, 0.85)    
     leg.SetFillColor(0)
     leg.SetBorderSize(0)
     for iinfile,infile in enumerate(infiles) :
