@@ -210,14 +210,25 @@ def getNPVbin(x) :
 NPVs = []
 PTs = []
 nparts = 4
+npartspt = 5
 if options.dynamicBin :
     for jentry in xrange ( entries ) :
         nc = tree.GetEntry( jentry )
         if nc <= 0 :
             continue
+
+
+        geneJets = []
         NPVs.append(npv[0])
         for i in xrange( jets_pt.size() ) :
-            PTs.append(genjets_pt[i])
+            g = ROOT.TLorentzVector( )
+            g.SetPtEtaPhiE( genjets_pt[i], genjets_eta[i], genjets_phi[i], genjets_e[i] )
+            geneJets.append(g)
+
+
+        if len(geneJets) > 0 and geneJets[0].Perp() > 20. :
+            PTs.append(geneJets[0].Perp())
+
     NPVs.sort()
     PTs.sort()
 
@@ -235,8 +246,8 @@ if options.dynamicBin :
         return len(dNPVbins) - 1
 
     def dynamicBinsPT(x) :
-        dptbins = [ PTs[(PTSize/nparts)-1], PTs[2*(PTSize/nparts)-1], PTs[3*(PTSize/nparts)-1], PTs[4*(PTSize/nparts)-1] ]
-        if x < PTs[(PTSize/nparts)-1]:
+        dptbins = [ PTs[(PTSize/npartspt)-1], PTs[2*(PTSize/npartspt)-1], PTs[3*(PTSize/npartspt)-1], PTs[4*(PTSize/npartspt)-1], PTs[5*(PTSize/npartspt)-1] ]
+        if x < PTs[(PTSize/npartspt)-1]:
             return 0        
         for i in xrange( len(dptbins) - 1 ) :
             if x >= dptbins[i] and x < dptbins[i+1] :
@@ -334,17 +345,17 @@ for jentry in xrange( entries ):
             
 print "EXITING"
 
-#if options.dynamicBin :
-    #print "NPV Bin 0: " + NPVs[0] + " - " + NPVs[(NPVSize/nparts)-1]
-    #print "NPV Bin 1: " + NPVs[(NPVSize/nparts)-1] + " - " + NPVs[2*(NPVSize/nparts)-1]
-    #print "NPV Bin 2: " + NPVs[2*(NPVSize/nparts)-1] + " - " + NPVs[3*(NPVSize/nparts)-1]
-    #print "NPV Bin 3: " + NPVs[3*(NPVSize/nparts)-1] + " - " + NPVs[4*(NPVSize/nparts)-1]
+if options.dynamicBin :
+    print "NPV Bin 0: " + str(NPVs[0]) + " - " + str(NPVs[(NPVSize/nparts)-1])
+    print "NPV Bin 1: " + str(NPVs[(NPVSize/nparts)-1]) + " - " + str(NPVs[2*(NPVSize/nparts)-1])
+    print "NPV Bin 2: " + str(NPVs[2*(NPVSize/nparts)-1]) + " - " + str(NPVs[3*(NPVSize/nparts)-1])
+    print "NPV Bin 3: " + str(NPVs[3*(NPVSize/nparts)-1]) + " - " + str(NPVs[4*(NPVSize/nparts)-1])
     
-    #print "pt Bin 0: " + PTs[0] + " - " + PTs[(PTSize/nparts)-1]
-    #print "pt Bin 1: " + PTs[(PTSize/nparts)-1] + " - " + PTs[2*(PTSize/nparts)-1] 
-    #print "pt Bin 2: " + PTs[2*(PTSize/nparts)-1] + " - " + PTs[3*(PTSize/nparts)-1]
-    #print "pt Bin 3: " + PTs[3*(PTSize/nparts)-1] + " - " + PTs[4*(PTSize/nparts)-1]
-    
+    print "pt Bin 0: " + str(PTs[0]) + " - " + str(PTs[(PTSize/npartspt)-1])
+    print "pt Bin 1: " + str(PTs[(PTSize/npartspt)-1]) + " - " + str(PTs[2*(PTSize/npartspt)-1]) 
+    print "pt Bin 2: " + str(PTs[2*(PTSize/npartspt)-1]) + " - " + str(PTs[3*(PTSize/npartspt)-1])
+    print "pt Bin 3: " + str(PTs[3*(PTSize/npartspt)-1]) + " - " + str(PTs[4*(PTSize/npartspt)-1])
+    print "pt Bin 4: " + str(PTs[4*(PTSize/npartspt)-1]) + " - " + str(PTs[5*(PTSize/npartspt)-1])
 
 f.cd()
 f.Write()

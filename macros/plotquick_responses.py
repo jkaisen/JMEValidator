@@ -25,6 +25,11 @@ parser.add_option('--dynamic', '--db',
                   default=False,
                   dest='dynamicBin',
                   help='Dynamic binning based on events per bin')
+parser.add_option('--setTitles', metavar='F', type='string', action='store',
+                  default=None,
+                  dest='SampleTitle',
+                  help='Set desired title for plots, typically indicating sample')
+
 
 (options, args) = parser.parse_args()
 argv = []
@@ -33,13 +38,22 @@ import ROOT
 
 ROOT.gStyle.SetOptStat(000000)
 ROOT.gROOT.Macro("rootlogon.C")
+if options.SampleTitle == None :
+    PlotTitle = options.sample
+else :
+    PlotTitle = options.SampleTitle
 if options.dynamicBin : 
     PVb1 = input('Lowest PV value: ')
     PVb2 = input('High End Bin 0: ')
     PVb3 = input('High End Bin 1: ')
     PVb4 = input('High End Bin 2: ')
     PVb5 = input('High End Bin 3: ')
-
+else :
+    PVb1 = 10
+    PVb2 = 20
+    PVb3 = 30
+    PVb4 = 40
+    PVb5 = 50
 algos = [ 'PFchs', 'PUPPI', 'SK' ]
 colors = [1, 2, 4]
 markers = [20,21,22]
@@ -51,37 +65,63 @@ titles1 = [';p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
            ';m^{GEN};Mean of m^{RECO}/m^{GEN}',
            ';p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
            ';y^{GEN};Mean of m^{RECO}/m^{GEN}']
-titles12= [';p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
-           ';p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
-           ';p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
-           ';p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
-           ';m^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
-           ';m^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
-           ';m^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
-           ';m^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
-           ';m^{GEN};Mean of m^{RECO}/m^{GEN}',
-           ';m^{GEN};Mean of m^{RECO}/m^{GEN}',
-           ';m^{GEN};Mean of m^{RECO}/m^{GEN}',
-           ';m^{GEN};Mean of m^{RECO}/m^{GEN}',
-           ';p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
-           ';p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
-           ';p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
-           ';p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
-           ';|y^{GEN}|;Mean of p_{T}^{RECO}/p_{T}^{GEN}',
-           ';|y^{GEN}|;Mean of p_{T}^{RECO}/p_{T}^{GEN}',
-           ';|y^{GEN}|;Mean of p_{T}^{RECO}/p_{T}^{GEN}',
-           ';|y^{GEN}|;Mean of p_{T}^{RECO}/p_{T}^{GEN}',
-           ';|y^{GEN}|;Mean of m^{RECO}/m^{GEN}',
-           ';|y^{GEN}|;Mean of m^{RECO}/m^{GEN}',
-           ';|y^{GEN}|;Mean of m^{RECO}/m^{GEN}',
-           ';|y^{GEN}|;Mean of m^{RECO}/m^{GEN}'
+titles12PU= ['Pileup Binned ' + PlotTitle + ';p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           'Pileup Binned;p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           'Pileup Binned;p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           'Pileup Binned;p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           'Pileup Binned ' + PlotTitle + ';m^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           'Pileup Binned;m^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           'Pileup Binned;m^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           'Pileup Binned;m^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           'Pileup Binned ' + PlotTitle + ';m^{GEN};Mean of m^{RECO}/m^{GEN}',
+           'Pileup Binned;m^{GEN};Mean of m^{RECO}/m^{GEN}',
+           'Pileup Binned;m^{GEN};Mean of m^{RECO}/m^{GEN}',
+           'Pileup Binned;m^{GEN};Mean of m^{RECO}/m^{GEN}',
+           'Pileup Binned ' + PlotTitle + ';p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
+           'Pileup Binned;p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
+           'Pileup Binned;p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
+           'Pileup Binned;p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
+           'Pileup Binned ' + PlotTitle + ';|y^{GEN}|;Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           'Pileup Binned;|y^{GEN}|;Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           'Pileup Binned;|y^{GEN}|;Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           'Pileup Binned;|y^{GEN}|;Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           'Pileup Binned ' + PlotTitle + ';|y^{GEN}|;Mean of m^{RECO}/m^{GEN}',
+           'Pileup Binned;|y^{GEN}|;Mean of m^{RECO}/m^{GEN}',
+           'Pileup Binned;|y^{GEN}|;Mean of m^{RECO}/m^{GEN}',
+           'Pileup Binned;|y^{GEN}|;Mean of m^{RECO}/m^{GEN}'
            ]
+
+titles12= [str(PVb1) + ' - ' + str(PVb2) + 'PV ' + PlotTitle + ';p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb2) + ' - ' + str(PVb3) + 'PV;p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb3) + ' - ' + str(PVb4) + 'PV;p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb4) + ' - ' + str(PVb5) + 'PV;p_{T}^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb1) + ' - ' + str(PVb2) + 'PV ' + PlotTitle + ';m^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb2) + ' - ' + str(PVb3) + 'PV;m^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb3) + ' - ' + str(PVb4) + 'PV;m^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb4) + ' - ' + str(PVb5) + 'PV;m^{GEN};Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb1) + ' - ' + str(PVb2) + 'PV ' + PlotTitle + ';m^{GEN};Mean of m^{RECO}/m^{GEN}',
+           str(PVb2) + ' - ' + str(PVb3) + 'PV;m^{GEN};Mean of m^{RECO}/m^{GEN}',
+           str(PVb3) + ' - ' + str(PVb4) + 'PV;m^{GEN};Mean of m^{RECO}/m^{GEN}',
+           str(PVb4) + ' - ' + str(PVb5) + 'PV;m^{GEN};Mean of m^{RECO}/m^{GEN}',
+           str(PVb1) + ' - ' + str(PVb2) + 'PV ' + PlotTitle + ';p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
+           str(PVb2) + ' - ' + str(PVb3) + 'PV;p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
+           str(PVb3) + ' - ' + str(PVb4) + 'PV;p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
+           str(PVb4) + ' - ' + str(PVb5) + 'PV;p_{T}^{GEN};Mean of m^{RECO}/m^{GEN}',
+           str(PVb1) + ' - ' + str(PVb2) + 'PV ' + PlotTitle + ';|y^{GEN}|;Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb2) + ' - ' + str(PVb3) + 'PV;|y^{GEN}|;Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb3) + ' - ' + str(PVb4) + 'PV;|y^{GEN}|;Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb4) + ' - ' + str(PVb5) + 'PV;|y^{GEN}|;Mean of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb1) + ' - ' + str(PVb2) + 'PV ' + PlotTitle + ';|y^{GEN}|;Mean of m^{RECO}/m^{GEN}',
+           str(PVb2) + ' - ' + str(PVb3) + 'PV;|y^{GEN}|;Mean of m^{RECO}/m^{GEN}',
+           str(PVb3) + ' - ' + str(PVb4) + 'PV;|y^{GEN}|;Mean of m^{RECO}/m^{GEN}',
+           str(PVb4) + ' - ' + str(PVb5) + 'PV;|y^{GEN}|;Mean of m^{RECO}/m^{GEN}'
+          ]
 titles2 = [';p_{T}^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
            ';y^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
            ';m^{GEN};Width of m^{RECO}/m^{GEN}',
            ';p_{T}^{GEN};Width of m^{RECO}/m^{GEN}',
            ';y^{GEN};Width of m^{RECO}/m^{GEN}']
-titles22= [';p_{T}^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
+titles22PU= [';p_{T}^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
            ';p_{T}^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
            ';p_{T}^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
            ';p_{T}^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
@@ -105,6 +145,32 @@ titles22= [';p_{T}^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
            ';|y^{GEN}|;Width of m^{RECO}/m^{GEN}',
            ';|y^{GEN}|;Width of m^{RECO}/m^{GEN}',
            ';|y^{GEN}|;Width of m^{RECO}/m^{GEN}'
+           ]
+
+titles22= [str(PVb1) + ' - ' + str(PVb2) + 'PV;p_{T}^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb2) + ' - ' + str(PVb3) + 'PV;p_{T}^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb3) + ' - ' + str(PVb4) + 'PV;p_{T}^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb4) + ' - ' + str(PVb5) + 'PV;p_{T}^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb1) + ' - ' + str(PVb2) + 'PV;m^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb2) + ' - ' + str(PVb3) + 'PV;m^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb3) + ' - ' + str(PVb4) + 'PV;m^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb4) + ' - ' + str(PVb5) + 'PV;m^{GEN};Width of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb1) + ' - ' + str(PVb2) + 'PV;m^{GEN};Width of m^{RECO}/m^{GEN}',
+           str(PVb2) + ' - ' + str(PVb3) + 'PV;m^{GEN};Width of m^{RECO}/m^{GEN}',
+           str(PVb3) + ' - ' + str(PVb4) + 'PV;m^{GEN};Width of m^{RECO}/m^{GEN}',
+           str(PVb4) + ' - ' + str(PVb5) + 'PV;m^{GEN};Width of m^{RECO}/m^{GEN}',
+           str(PVb1) + ' - ' + str(PVb2) + 'PV;p_{T}^{GEN};Width of m^{RECO}/m^{GEN}',
+           str(PVb2) + ' - ' + str(PVb3) + 'PV;p_{T}^{GEN};Width of m^{RECO}/m^{GEN}',
+           str(PVb3) + ' - ' + str(PVb4) + 'PV;p_{T}^{GEN};Width of m^{RECO}/m^{GEN}',
+           str(PVb4) + ' - ' + str(PVb5) + 'PV;p_{T}^{GEN};Width of m^{RECO}/m^{GEN}',
+           str(PVb1) + ' - ' + str(PVb2) + 'PV;|y^{GEN}|;Width of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb2) + ' - ' + str(PVb3) + 'PV;|y^{GEN}|;Width of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb3) + ' - ' + str(PVb4) + 'PV;|y^{GEN}|;Width of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb4) + ' - ' + str(PVb5) + 'PV;|y^{GEN}|;Width of p_{T}^{RECO}/p_{T}^{GEN}',
+           str(PVb1) + ' - ' + str(PVb2) + 'PV;|y^{GEN}|;Width of m^{RECO}/m^{GEN}',
+           str(PVb2) + ' - ' + str(PVb3) + 'PV;|y^{GEN}|;Width of m^{RECO}/m^{GEN}',
+           str(PVb3) + ' - ' + str(PVb4) + 'PV;|y^{GEN}|;Width of m^{RECO}/m^{GEN}',
+           str(PVb4) + ' - ' + str(PVb5) + 'PV;|y^{GEN}|;Width of m^{RECO}/m^{GEN}'
            ]
 
 infiles = []
@@ -175,62 +241,6 @@ allhists2 = []
 canvs2 = []
 legs2 = []
 
-for ihist,shist in enumerate( inhists2 ) :
-    print 'processing shist = ' + shist
-    if ihist%4 == 0 :
-        canv = ROOT.TCanvas(shist,shist, 1600, 800)
-        canv.Divide(2,4)
-
-    leg = ROOT.TLegend(0.6, 0.6, 0.85, 0.85)    
-    leg.SetFillColor(0)
-    leg.SetBorderSize(0)
-    for iinfile,infile in enumerate(infiles) :
-        print '   processing infile = ' + infile.GetName()
-
-        hist = infile.Get(shist)
-        allhists.append( hist )
-        hist.FitSlicesY()
-        hist1 = ROOT.gDirectory.Get( shist + '_1')
-        hist2 = ROOT.gDirectory.Get( shist + '_2')
-        hist1.SetName( 'proj1y_' + shist + '_' + infile.GetName() )
-        hist2.SetName( 'proj2y_' + shist + '_' + infile.GetName() )
-        hist1.SetMarkerColor(colors[iinfile])
-        hist2.SetMarkerColor(colors[iinfile])
-        hist1.SetLineColor(colors[iinfile])
-        hist2.SetLineColor(colors[iinfile])
-        hist1.SetMarkerStyle(markers[iinfile])
-        hist2.SetMarkerStyle(markers[iinfile])        
-        hist1.SetMaximum(1.8)
-        hist1.SetMinimum(0.5)
-        hist2.SetMaximum(0.5)
-        hist2.SetMinimum(0.0)
-        hist1.SetTitle( titles12[ihist] )
-        hist2.SetTitle( titles22[ihist] )
-        allhists.append( hist1 )
-        allhists.append( hist2 )
-        leg.AddEntry( hist1, algos[iinfile], 'p')
-
-        canv.cd((2*ihist + 1)%8)
-        if iinfile == 0 : 
-            hist1.Draw()
-        else :
-            hist1.Draw('same')
-        canv.cd((2*ihist)%8 + 2)
-        if iinfile == 0 : 
-            hist2.Draw()
-        else :
-            hist2.Draw('same')
-
-
-    if ihist%4 == 3 :
-        canv.cd(1)
-        leg.Draw()
-        legs2.append(leg)
-        canv.Draw()
-        canvs2.append(canv)
-        canv.Print('pngs/' + canv.GetName() + '_' + options.JetType + '_' + options.BX + '.png' )
-        canv.Print('pdfs/' + canv.GetName() + '_' + options.JetType + '_' + options.BX + '.pdf' )
-
 
 ##Pileup binned plots
 colors2 = [1,2,4,6]
@@ -246,16 +256,17 @@ for iinfile,infile in enumerate(infiles) :
     for ihist,shist in enumerate( inhists2 ) :
         print 'processing shist = ' + shist
         nh = ihist%4
-        print ' nh ' + str(nh)
+        #print ' nh ' + str(nh)
         if nh == 0 :
             canv = ROOT.TCanvas(shist,shist, 1600, 800)
             canv.Divide(2,1)
-
+        
             leg = ROOT.TLegend(0.6, 0.6, 0.85, 0.85)    
             leg.SetFillColor(0)
             leg.SetBorderSize(0)
         
-
+        title12PU = titles12PU[ihist]
+        title22PU = algos[iinfile] + titles22PU[ihist]
         hist = infile.Get(shist)
         allhists.append( hist )
         hist.FitSlicesY()
@@ -273,8 +284,8 @@ for iinfile,infile in enumerate(infiles) :
         hist1.SetMinimum(0.5)
         hist2.SetMaximum(0.5)
         hist2.SetMinimum(0.0)
-        hist1.SetTitle( titles12[ihist] )
-        hist2.SetTitle( titles22[ihist] )
+        hist1.SetTitle( title12PU )
+        hist2.SetTitle( title22PU )
         allhists.append( hist1 )
         allhists.append( hist2 )
         leg.AddEntry( hist1, PUBin[nh], 'p')
@@ -299,4 +310,61 @@ for iinfile,infile in enumerate(infiles) :
             canvs2.append(canv)
             canv.Print('pngs/' + 'PUBinned_' + algos[iinfile] + '_' + canv.GetName() + '_' + options.JetType + '_' + options.BX + '.png' )
             canv.Print('pdfs/' + 'PUBinned_' + algos[iinfile] + '_' + canv.GetName() + '_' + options.JetType + '_' + options.BX + '.pdf' )
-    
+
+for ihist,shist in enumerate( inhists2 ) :
+    print 'processing shist = ' + shist
+    if ihist%4 == 0 :
+        canv = ROOT.TCanvas(shist,shist, 1600, 800)
+        canv.Divide(2,4)
+
+    leg = ROOT.TLegend(0.6, 0.6, 0.85, 0.85)    
+    leg.SetFillColor(0)
+    leg.SetBorderSize(0)
+    for iinfile,infile in enumerate(infiles) :
+        print '   processing infile = ' + infile.GetName()
+        ROOT.gStyle.SetLabelSize( .065, "xyz")
+        #ROOT.gStyle.SetTitleSize( .12 )
+        hist = infile.Get(shist)
+        allhists.append( hist )
+        hist.FitSlicesY()
+        hist1 = ROOT.gDirectory.Get( shist + '_1')
+        hist2 = ROOT.gDirectory.Get( shist + '_2')
+        hist1.SetName( 'proj1y_' + shist + '_' + infile.GetName() )
+        hist2.SetName( 'proj2y_' + shist + '_' + infile.GetName() )
+        hist1.SetMarkerColor(colors[iinfile])
+        hist2.SetMarkerColor(colors[iinfile])
+        hist1.SetLineColor(colors[iinfile])
+        hist2.SetLineColor(colors[iinfile])
+        hist1.SetMarkerStyle(markers[iinfile])
+        hist2.SetMarkerStyle(markers[iinfile])        
+        hist1.SetMaximum(1.8)
+        hist1.SetMinimum(0.5)
+        hist2.SetMaximum(0.5)
+        hist2.SetMinimum(0.0)
+        hist1.SetTitle( titles12[ihist] )
+        hist2.SetTitle( titles22[ihist] )
+        
+        allhists.append( hist1 )
+        allhists.append( hist2 )
+        leg.AddEntry( hist1, algos[iinfile], 'p')
+
+        canv.cd((2*ihist + 1)%8)
+        if iinfile == 0 : 
+            hist1.Draw()
+        else :
+            hist1.Draw('same')
+        canv.cd((2*ihist)%8 + 2)
+        if iinfile == 0 : 
+            hist2.Draw()
+        else :
+            hist2.Draw('same')
+
+
+    if ihist%4 == 3 :
+        canv.cd(1)
+        leg.Draw()
+        legs2.append(leg)
+        canv.Draw()
+        canvs2.append(canv)
+        canv.Print('pngs/' + canv.GetName() + '_' + options.JetType + '_' + options.BX + '.png' )
+        canv.Print('pdfs/' + canv.GetName() + '_' + options.JetType + '_' + options.BX + '.pdf' )
